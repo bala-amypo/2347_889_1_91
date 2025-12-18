@@ -1,7 +1,6 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 public class Ticket {
@@ -11,39 +10,58 @@ public class Ticket {
     private Long id;
 
     private String title;
-
-    @Column(length = 1000)
     private String description;
 
-    private String location;
-
-    private String createdBy;
-
     @ManyToOne
-    private Category assignedCategory;
+    private Category category;
 
     @Enumerated(EnumType.STRING)
     private UrgencyLevel urgencyLevel;
 
-    private LocalDateTime createdAt;
-
-    @PrePersist
-    void onCreate() {
-        createdAt = LocalDateTime.now();
-    }
-
     public Ticket() {}
 
-    public Long getId() { 
-        return id; 
+    public Ticket(String title, String description) {
+        this.title = title;
+        this.description = description;
     }
-    public String getDescription() { 
-        return description; 
+
+    public Long getId() {
+        return id;
     }
-    public void setAssignedCategory(Category category) { 
-        this.assignedCategory = category;
+
+    public String getTitle() {
+        return title;
     }
-    public void setUrgencyLevel(UrgencyLevel urgencyLevel) { 
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public UrgencyLevel getUrgencyLevel() {
+        return urgencyLevel;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public void setUrgencyLevel(UrgencyLevel urgencyLevel) {
         this.urgencyLevel = urgencyLevel;
     }
 }
