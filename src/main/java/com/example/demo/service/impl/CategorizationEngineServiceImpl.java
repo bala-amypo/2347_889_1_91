@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.*;
 import com.example.demo.repository.*;
-import com.eaxample.demo.service.CategorizationEngineService;
+import com.example.demo.service.CategorizationEngineService;
 import com.example.demo.util.TicketCategorizationEngine;
 
 @Service
