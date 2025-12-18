@@ -32,8 +32,14 @@ public class Category {
         this.description = description;
         this.defaultUrgency = defaultUrgency;
     }
-    
-    public Long getId() { return id; }
-    public String getCategoryName() { return categoryName; }
-    public String getDefaultUrgency() { return defaultUrgency; }
+
+    public Long getId() { 
+        return id; 
+    }
+    public String getCategoryName() { 
+        return categoryName; 
+    }
+    public String getDefaultUrgency() { 
+        return defaultUrgency; 
+    }
 }
