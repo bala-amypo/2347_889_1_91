@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 public class Ticket {
@@ -11,57 +12,51 @@ public class Ticket {
 
     private String title;
     private String description;
+    private String location;
+    private String createdBy;
 
     @ManyToOne
-    private Category category;
+    private Category assignedCategory;
 
     @Enumerated(EnumType.STRING)
     private UrgencyLevel urgencyLevel;
 
+    private LocalDateTime createdAt;
+
     public Ticket() {}
 
-    public Ticket(String title, String description) {
+    public Ticket(String title, String description, String location, String createdBy) {
         this.title = title;
         this.description = description;
+        this.location = location;
+        this.createdBy = createdBy;
     }
 
-    public Long getId() {
-        return id;
+    @PrePersist
+    void init() {
+        createdAt = LocalDateTime.now();
     }
 
-    public String getTitle() {
-        return title;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public String getDescription() {
-        return description;
-    }
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
 
-    public Category getCategory() {
-        return category;
-    }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
-    public UrgencyLevel getUrgencyLevel() {
-        return urgencyLevel;
-    }
+    public String getLocation() { return location; }
+    public void setLocation(String location) { this.location = location; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getCreatedBy() { return createdBy; }
+    public void setCreatedBy(String createdBy) { this.createdBy = createdBy; }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    public Category getAssignedCategory() { return assignedCategory; }
+    public void setAssignedCategory(Category assignedCategory) { this.assignedCategory = assignedCategory; }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    public UrgencyLevel getUrgencyLevel() { return urgencyLevel; }
+    public void setUrgencyLevel(UrgencyLevel urgencyLevel) { this.urgencyLevel = urgencyLevel; }
 
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public void setUrgencyLevel(UrgencyLevel urgencyLevel) {
-        this.urgencyLevel = urgencyLevel;
-    }
+    public LocalDateTime getCreatedAt() { return createdAt; }
 }
