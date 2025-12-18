@@ -1,7 +1,6 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 public class CategorizationLog {
@@ -10,22 +9,39 @@ public class CategorizationLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String message;
+
     @ManyToOne
     private Ticket ticket;
 
-    @ManyToOne
-    private CategorizationRule appliedRule;
+    public CategorizationLog() {}
 
-    private String matchedKeyword;
-    private String assignedCategory;
-    private String assignedUrgency;
-
-    private LocalDateTime loggedAt;
-
-    @PrePersist
-    void logTime() {
-        loggedAt = LocalDateTime.now();
+    public CategorizationLog(String message, Ticket ticket) {
+        this.message = message;
+        this.ticket = ticket;
     }
 
-    public CategorizationLog() {}
+    public Long getId() {
+        return id;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public Ticket getTicket() {
+        return ticket;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
+    }
 }
