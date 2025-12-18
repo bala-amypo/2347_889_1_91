@@ -43,5 +43,7 @@ public class Ticket {
     public void setAssignedCategory(Category category) { 
         this.assignedCategory = category;
     }
-    public void setUrgencyLevel(UrgencyLevel urgencyLevel) { this.urgencyLevel = urgencyLevel; }
+    public void setUrgencyLevel(UrgencyLevel urgencyLevel) { 
+        this.urgencyLevel = urgencyLevel;
+    }
 }
