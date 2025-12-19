@@ -39,13 +39,7 @@ public class CategorizationEngineServiceImpl implements CategorizationEngineServ
         Ticket ticket = ticketRepository.findById(ticketId)
                 .orElseThrow(() -> new RuntimeException("Ticket not found"));
 
-        engine.categorize(
-                ticket,
-                categoryRepository.findAll(),
-                ruleRepository.findAll(),
-                policyRepository.findAll(),
-                logRepository.findAll()
-        );
+        engine.categorize(ticket);
 
         ticketRepository.save(ticket);
     }
