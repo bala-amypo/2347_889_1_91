@@ -9,6 +9,5 @@ public interface UserService {
     User getUser(Long id);
 
     User findByEmail(String email);
-}
 
-
+    User login(User user) throws Exception; 
