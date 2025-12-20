@@ -7,4 +7,3 @@ public interface UserService {
     User getUser(Long id);
     User findByEmail(String email);
 }
-
