@@ -3,7 +3,6 @@ package com.example.demo.controller;
 import com.example.demo.dto.AuthRequest;
 import com.example.demo.dto.AuthResponse;
 import com.example.demo.model.User;
-import com.example.demo.security.JwtUtil;
 import com.example.demo.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
@@ -12,23 +11,17 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @RestController
 @RequestMapping("/auth")
 @Tag(name = "Authentication")
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
-    private final JwtUtil jwtUtil;
     private final UserService userService;
 
     public AuthController(AuthenticationManager authenticationManager,
-                          JwtUtil jwtUtil,
                           UserService userService) {
         this.authenticationManager = authenticationManager;
-        this.jwtUtil = jwtUtil;
         this.userService = userService;
     }
 
@@ -44,13 +37,8 @@ public class AuthController {
 
         User user = userService.findByEmail(request.getEmail());
 
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("role", user.getRole());
-
-        String token = jwtUtil.generateToken(claims, user.getEmail());
-
         AuthResponse response = new AuthResponse(
-                token,
+                null, // token is null since we are not using JWT
                 user.getId(),
                 user.getEmail(),
                 user.getRole()
