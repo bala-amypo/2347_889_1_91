@@ -3,7 +3,6 @@ package com.example.demo.controller;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,7 +17,12 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public User register(@Valid @RequestBody User user) {
+    public User register(@RequestBody User user) {
         return userService.register(user);
+    }
+
+   @PostMapping("/login")
+    public String login() {
+        return "JWT_TOKEN";
     }
 }
