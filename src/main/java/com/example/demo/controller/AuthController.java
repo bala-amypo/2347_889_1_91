@@ -5,7 +5,6 @@ import com.example.demo.dto.AuthResponse;
 import com.example.demo.model.User;
 import com.example.demo.security.JwtUtil;
 import com.example.demo.service.UserService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,24 +16,22 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
-@Tag(name = "Authentication")
 public class AuthController {
 
+    private final UserService userService;
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
-    private final UserService userService;
 
-    public AuthController(AuthenticationManager authenticationManager,
-                          JwtUtil jwtUtil,
-                          UserService userService) {
+    public AuthController(UserService userService,
+                          AuthenticationManager authenticationManager,
+                          JwtUtil jwtUtil) {
+        this.userService = userService;
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
-        this.userService = userService;
     }
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
-
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -49,12 +46,11 @@ public class AuthController {
 
         String token = jwtUtil.generateToken(claims, user.getEmail());
 
-        AuthResponse response = new AuthResponse(
-                token,
-                user.getId(),
-                user.getEmail(),
-                user.getRole()
-        );
+        AuthResponse response = new AuthResponse();
+        response.setToken(token);
+        response.setUserId(user.getId());
+        response.setEmail(user.getEmail());
+        response.setRole(user.getRole());
 
         return ResponseEntity.ok(response);
     }
