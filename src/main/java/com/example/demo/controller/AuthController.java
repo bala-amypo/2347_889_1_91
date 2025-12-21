@@ -34,7 +34,7 @@ public class AuthController {
         }
 
         AuthResponse response = new AuthResponse(
-                null, // token is null
+                null, 
                 user.getId(),
                 user.getEmail(),
                 user.getRole()
