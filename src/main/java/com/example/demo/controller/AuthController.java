@@ -39,7 +39,6 @@ public class AuthController {
                 user.getEmail(),
                 user.getRole()
         );
-
         return ResponseEntity.ok(response);
     }
 }
