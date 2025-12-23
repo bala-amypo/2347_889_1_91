@@ -28,11 +28,11 @@ public class TestResultListener implements ITestListener {
 
     @Override
     public void onStart(ITestContext context) {
-        // no-op
+        
     }
 
     @Override
     public void onFinish(ITestContext context) {
-        // no-op
+        
     }
 }
