@@ -2,15 +2,13 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Category;
 import com.example.demo.service.CategoryService;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/categories")
-@Tag(name = "Categories")
 public class CategoryController {
 
     private final CategoryService categoryService;
@@ -20,17 +18,17 @@ public class CategoryController {
     }
 
     @PostMapping
-    public Category createCategory(@Valid @RequestBody Category category) {
+    public Category create(@RequestBody Category category) {
         return categoryService.createCategory(category);
     }
 
     @GetMapping
-    public List<Category> getAllCategories() {
+    public List<Category> getAll() {
         return categoryService.getAllCategories();
     }
 
     @GetMapping("/{id}")
-    public Category getCategory(@PathVariable Long id) {
-        return categoryService.getCategory(id);
+    public Category getById(@PathVariable Long id) {
+        return categoryService.getCategoryById(id);
     }
 }
