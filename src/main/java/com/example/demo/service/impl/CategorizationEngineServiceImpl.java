@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.*;
 import com.example.demo.repository.*;
 import com.example.demo.service.CategorizationEngineService;
@@ -35,13 +36,32 @@ public class CategorizationEngineServiceImpl implements CategorizationEngineServ
     }
 
     @Override
-    public void categorizeTicket(Long ticketId) {
+    public Ticket categorizeTicket(Long ticketId) {
+
         Ticket ticket = ticketRepository.findById(ticketId)
-                .orElseThrow(() -> new RuntimeException("Ticket not found"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Ticket not found"));
 
-        engine.categorize(ticket);
+        TicketCategorizationEngine.CategorizationResult result =
+                engine.categorize(
+                        ticket,
+                        categoryRepository.findAll(),
+                        ruleRepository.findAll(),
+                        policyRepository.findAll()
+                );
 
-        ticketRepository.save(ticket);
+        if (result.getCategory() != null) {
+            ticket.setAssignedCategory(result.getCategory());
+        }
+        ticket.setUrgencyLevel(result.getUrgency());
+
+        Ticket savedTicket = ticketRepository.save(ticket);
+
+        for (CategorizationLog log : result.getLogs()) {
+            logRepository.save(log);
+        }
+
+        return savedTicket;
     }
 
     @Override
@@ -52,6 +72,7 @@ public class CategorizationEngineServiceImpl implements CategorizationEngineServ
     @Override
     public CategorizationLog getLog(Long id) {
         return logRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Log not found"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Log not found"));
     }
 }
