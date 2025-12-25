@@ -3,42 +3,46 @@ package com.example.demo.controller;
 import com.example.demo.dto.AuthRequest;
 import com.example.demo.dto.AuthResponse;
 import com.example.demo.model.User;
-import com.example.demo.service.UserService;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.ResponseEntity;
+import com.example.demo.service.impl.UserServiceImpl;
+import com.example.demo.util.JwtUtil;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
-@Tag(name = "Authentication")
 public class AuthController {
 
-    private final UserService userService;
+    private final UserServiceImpl userService;
+    private final AuthenticationManager authManager;
+    private final JwtUtil jwtUtil;
 
-    public AuthController(UserService userService) {
+    public AuthController(
+            UserServiceImpl userService,
+            AuthenticationManager authManager,
+            JwtUtil jwtUtil) {
         this.userService = userService;
-    }
-
-    @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody User user) {
-        User savedUser = userService.register(user);
-        return ResponseEntity.ok(savedUser);
+        this.authManager = authManager;
+        this.jwtUtil = jwtUtil;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
+    public AuthResponse login(@RequestBody AuthRequest request) {
+
+        authManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(), request.getPassword()
+                )
+        );
+
         User user = userService.findByEmail(request.getEmail());
+        String token = jwtUtil.generateToken(user.getEmail(), user.getRole());
 
-        if (!user.getPassword().equals(request.getPassword())) {
-            throw new RuntimeException("Invalid email or password");
-        }
-
-        AuthResponse response = new AuthResponse(
-                null, 
+        return new AuthResponse(
+                token,
                 user.getId(),
                 user.getEmail(),
                 user.getRole()
         );
-        return ResponseEntity.ok(response);
     }
 }

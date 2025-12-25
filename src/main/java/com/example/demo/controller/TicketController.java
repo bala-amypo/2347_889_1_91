@@ -1,36 +1,36 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Ticket;
-import com.example.demo.service.TicketService;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
+import com.example.demo.service.impl.CategorizationEngineServiceImpl;
+import com.example.demo.service.impl.TicketServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/api/tickets")
-@Tag(name = "Tickets")
+@RequestMapping("/tickets")
 public class TicketController {
 
-    private final TicketService ticketService;
+    private final TicketServiceImpl ticketService;
+    private final CategorizationEngineServiceImpl engineService;
 
-    public TicketController(TicketService ticketService) {
+    public TicketController(
+            TicketServiceImpl ticketService,
+            CategorizationEngineServiceImpl engineService) {
         this.ticketService = ticketService;
+        this.engineService = engineService;
     }
 
     @PostMapping
-    public Ticket createTicket(@Valid @RequestBody Ticket ticket) {
+    public Ticket create(@RequestBody Ticket ticket) {
         return ticketService.createTicket(ticket);
     }
 
-    @GetMapping
-    public List<Ticket> getAllTickets() {
-        return ticketService.getAllTickets();
+    @PostMapping("/{id}/categorize")
+    public Ticket categorize(@PathVariable Long id) {
+        return engineService.categorizeTicket(id);
     }
 
     @GetMapping("/{id}")
-    public Ticket getTicket(@PathVariable Long id) {
+    public Ticket get(@PathVariable Long id) {
         return ticketService.getTicket(id);
     }
 }
