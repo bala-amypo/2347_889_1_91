@@ -2,33 +2,33 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
+@Table(name = "urgency_policies")
 public class UrgencyPolicy {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     private String policyName;
     private String keyword;
     private String urgencyOverride;
+
+    @ManyToMany(mappedBy = "urgencyPolicies")
+    private Set<Category> categories = new HashSet<>();
+
     private LocalDateTime createdAt;
 
-    public UrgencyPolicy() {}
-
-    public UrgencyPolicy(String policyName, String keyword, String urgencyOverride) {
-        this.policyName = policyName;
-        this.keyword = keyword;
-        this.urgencyOverride = urgencyOverride;
-    }
-
     @PrePersist
-    void init() {
+    public void prePersist() {
         createdAt = LocalDateTime.now();
     }
 
     public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
     public String getPolicyName() { return policyName; }
     public void setPolicyName(String policyName) { this.policyName = policyName; }
@@ -38,4 +38,7 @@ public class UrgencyPolicy {
 
     public String getUrgencyOverride() { return urgencyOverride; }
     public void setUrgencyOverride(String urgencyOverride) { this.urgencyOverride = urgencyOverride; }
+
+    public Set<Category> getCategories() { return categories; }
+    public LocalDateTime getCreatedAt() { return createdAt; }
 }
