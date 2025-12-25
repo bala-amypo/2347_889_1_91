@@ -1,36 +1,39 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Ticket;
-import com.example.demo.service.impl.CategorizationEngineServiceImpl;
-import com.example.demo.service.impl.TicketServiceImpl;
+import com.example.demo.service.TicketService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/tickets")
 public class TicketController {
 
-    private final TicketServiceImpl ticketService;
-    private final CategorizationEngineServiceImpl engineService;
+    private final TicketService ticketService;
 
-    public TicketController(
-            TicketServiceImpl ticketService,
-            CategorizationEngineServiceImpl engineService) {
+    // ✅ Inject INTERFACE, not implementation
+    public TicketController(TicketService ticketService) {
         this.ticketService = ticketService;
-        this.engineService = engineService;
     }
 
     @PostMapping
-    public Ticket create(@RequestBody Ticket ticket) {
+    public Ticket createTicket(@RequestBody Ticket ticket) {
         return ticketService.createTicket(ticket);
     }
 
-    @PostMapping("/{id}/categorize")
-    public void categorize(@PathVariable Long id) {
-        engineService.categorizeTicket(id);
+    @GetMapping
+    public List<Ticket> getAllTickets() {
+        return ticketService.getAllTickets();
     }
 
     @GetMapping("/{id}")
-    public Ticket get(@PathVariable Long id) {
-        return ticketService.getTicket(id);
+    public Ticket getTicketById(@PathVariable Long id) {
+        return ticketService.getTicketById(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteTicket(@PathVariable Long id) {
+        ticketService.deleteTicket(id);
     }
 }

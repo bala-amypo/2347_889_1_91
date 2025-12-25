@@ -7,7 +7,9 @@ public interface TicketService {
 
     Ticket createTicket(Ticket ticket);
 
-    Ticket getTicket(Long id);
-
     List<Ticket> getAllTickets();
+
+    Ticket getTicketById(Long id);
+
+    void deleteTicket(Long id);
 }
