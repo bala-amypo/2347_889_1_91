@@ -12,7 +12,7 @@ public class TicketController {
 
     private final TicketService ticketService;
 
-    // ✅ Inject INTERFACE, not implementation
+  
     public TicketController(TicketService ticketService) {
         this.ticketService = ticketService;
     }
