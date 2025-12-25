@@ -1,23 +1,19 @@
-package com.example.demo.service.impl;
-
-import com.example.demo.model.User;
-import com.example.demo.repository.UserRepository;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
 @Service
 public class UserServiceImpl {
 
-    private final UserRepository repo;
-    private final PasswordEncoder encoder;
+    private final UserRepository repository;
 
-    public UserServiceImpl(UserRepository repo, PasswordEncoder encoder) {
-        this.repo = repo;
-        this.encoder = encoder;
+    public UserServiceImpl(UserRepository repository) {
+        this.repository = repository;
     }
 
-    public User register(User user) {
-        user.setPassword(encoder.encode(user.getPassword()));
-        return repo.save(user);
+    public User findByEmail(String email) {
+        return repository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    public User getById(long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 }
