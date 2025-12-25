@@ -9,10 +9,13 @@ import java.util.List;
 @Service
 public class CategorizationRuleServiceImpl {
 
-    private final CategorizationRuleRepository repo;
+    private final CategorizationRuleRepository ruleRepository;
+    private final CategoryRepository categoryRepository;
 
-    public CategorizationRuleServiceImpl(CategorizationRuleRepository repo) {
-        this.repo = repo;
+    public CategorizationRuleServiceImpl(CategorizationRuleRepository ruleRepository,
+                                         CategoryRepository categoryRepository) {
+        this.ruleRepository = ruleRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     public List<CategorizationRule> getAll() {
