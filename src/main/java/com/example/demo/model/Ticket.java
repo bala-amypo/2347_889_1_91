@@ -13,6 +13,8 @@ public class Ticket {
 
     private String title;
     private String description;
+    private String location;
+    private String createdBy;
     private String urgencyLevel;
 
     @ManyToOne
@@ -20,25 +22,13 @@ public class Ticket {
 
     private LocalDateTime createdAt;
 
+    public Ticket() {}
+
     @PrePersist
     public void prePersist() {
-        this.createdAt = LocalDateTime.now();
+        createdAt = LocalDateTime.now();
+        if (urgencyLevel == null) urgencyLevel = "LOW";
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
-
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
-
-    public Category getAssignedCategory() { return assignedCategory; }
-    public void setAssignedCategory(Category assignedCategory) { this.assignedCategory = assignedCategory; }
-
-    public String getUrgencyLevel() { return urgencyLevel; }
-    public void setUrgencyLevel(String urgencyLevel) { this.urgencyLevel = urgencyLevel; }
-
-    public LocalDateTime getCreatedAt() { return createdAt; }
+    // getters & setters
 }

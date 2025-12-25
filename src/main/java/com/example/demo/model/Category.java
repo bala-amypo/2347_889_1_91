@@ -13,7 +13,10 @@ public class Category {
     @GeneratedValue
     private Long id;
 
+    @Column(unique = true)
     private String categoryName;
+
+    private String description;
     private String defaultUrgency;
 
     @ManyToMany
@@ -21,20 +24,12 @@ public class Category {
 
     private LocalDateTime createdAt;
 
+    public Category() {}
+
     @PrePersist
     public void prePersist() {
-        this.createdAt = LocalDateTime.now();
+        createdAt = LocalDateTime.now();
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getCategoryName() { return categoryName; }
-    public void setCategoryName(String categoryName) { this.categoryName = categoryName; }
-
-    public String getDefaultUrgency() { return defaultUrgency; }
-    public void setDefaultUrgency(String defaultUrgency) { this.defaultUrgency = defaultUrgency; }
-
-    public Set<UrgencyPolicy> getUrgencyPolicies() { return urgencyPolicies; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
+    // getters & setters
 }
