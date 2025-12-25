@@ -6,7 +6,7 @@ import com.example.demo.repository.UrgencyPolicyRepository;
 import com.example.demo.service.UrgencyPolicyService;
 
 import java.util.List;
-@Service
+
 public class UrgencyPolicyServiceImpl implements UrgencyPolicyService {
 
     private final UrgencyPolicyRepository repository;

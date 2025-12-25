@@ -6,7 +6,7 @@ import com.example.demo.repository.TicketRepository;
 import com.example.demo.service.TicketService;
 
 import java.util.List;
-@Service
+
 public class TicketServiceImpl implements TicketService {
 
     private final TicketRepository repository;
