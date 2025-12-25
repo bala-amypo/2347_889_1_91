@@ -1,9 +1,10 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.Category;
 import com.example.demo.repository.CategoryRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CategoryServiceImpl {
 
     private final CategoryRepository repo;
@@ -12,12 +13,7 @@ public class CategoryServiceImpl {
         this.repo = repo;
     }
 
-    public Category createCategory(Category c) {
+    public Category save(Category c) {
         return repo.save(c);
-    }
-
-    public Category getCategory(Long id) {
-        return repo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
     }
 }

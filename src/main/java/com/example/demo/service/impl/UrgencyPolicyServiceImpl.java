@@ -2,33 +2,18 @@ package com.example.demo.service.impl;
 
 import com.example.demo.model.UrgencyPolicy;
 import com.example.demo.repository.UrgencyPolicyRepository;
-import com.example.demo.service.UrgencyPolicyService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
-public class UrgencyPolicyServiceImpl implements UrgencyPolicyService {
+public class UrgencyPolicyServiceImpl {
 
-    private final UrgencyPolicyRepository policyRepository;
+    private final UrgencyPolicyRepository repo;
 
-    public UrgencyPolicyServiceImpl(UrgencyPolicyRepository policyRepository) {
-        this.policyRepository = policyRepository;
+    public UrgencyPolicyServiceImpl(UrgencyPolicyRepository repo) {
+        this.repo = repo;
     }
 
-    @Override
-    public UrgencyPolicy createPolicy(UrgencyPolicy policy) {
-        return policyRepository.save(policy);
-    }
-
-    @Override
-    public List<UrgencyPolicy> getAllPolicies() {
-        return policyRepository.findAll();
-    }
-
-    @Override
-    public UrgencyPolicy getPolicy(Long id) {
-        return policyRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Policy not found"));
+    public UrgencyPolicy save(UrgencyPolicy p) {
+        return repo.save(p);
     }
 }
