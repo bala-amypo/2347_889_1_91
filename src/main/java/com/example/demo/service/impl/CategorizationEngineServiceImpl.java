@@ -1,23 +1,23 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.model.Ticket;
-import com.example.demo.model.Category;
 import com.example.demo.model.CategorizationLog;
-import com.example.demo.repository.TicketRepository;
-import com.example.demo.repository.CategoryRepository;
-import com.example.demo.repository.CategorizationRuleRepository;
-import com.example.demo.repository.UrgencyPolicyRepository;
+import com.example.demo.model.Ticket;
 import com.example.demo.repository.CategorizationLogRepository;
+import com.example.demo.repository.CategorizationRuleRepository;
+import com.example.demo.repository.CategoryRepository;
+import com.example.demo.repository.TicketRepository;
+import com.example.demo.repository.UrgencyPolicyRepository;
 import com.example.demo.service.CategorizationEngineService;
 import com.example.demo.util.TicketCategorizationEngine;
-
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class CategorizationEngineServiceImpl implements CategorizationEngineService {
 
     private final TicketRepository ticketRepo;
@@ -44,28 +44,28 @@ public class CategorizationEngineServiceImpl implements CategorizationEngineServ
     }
 
     @Override
-    public void categorizeTicket(Long ticketId) {
+    public void categorizeTicket(Long id) {
 
-        Ticket ticket = ticketRepo.findById(ticketId)
+        Ticket t = ticketRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Ticket not found"));
 
         List<CategorizationLog> logs = new ArrayList<>();
 
         engine.categorize(
-                ticket,
+                t,
                 categoryRepo.findAll(),
                 ruleRepo.findAll(),
                 policyRepo.findAll(),
                 logs
         );
 
-        ticketRepo.save(ticket);
+        ticketRepo.save(t);
         logRepo.saveAll(logs);
     }
 
     @Override
-    public List<CategorizationLog> getLogsForTicket(Long ticketId) {
-        return logRepo.findByTicket_Id(ticketId);
+    public List<CategorizationLog> getLogsForTicket(Long id) {
+        return logRepo.findByTicket_Id(id);
     }
 
     @Override

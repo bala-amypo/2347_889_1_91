@@ -25,8 +25,8 @@ public class TicketController {
     }
 
     @PostMapping("/{id}/categorize")
-    public Ticket categorize(@PathVariable Long id) {
-        return engineService.categorizeTicket(id);
+    public void categorize(@PathVariable Long id) {
+        engineService.categorizeTicket(id);
     }
 
     @GetMapping("/{id}")
