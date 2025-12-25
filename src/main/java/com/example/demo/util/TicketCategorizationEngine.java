@@ -1,23 +1,40 @@
 package com.example.demo.util;
 
-import com.example.demo.model.Ticket;
-import org.springframework.stereotype.Component;
+import com.example.demo.model.*;
+import java.util.*;
 
-@Component
 public class TicketCategorizationEngine {
 
-    public String categorize(Ticket ticket) {
+    public void categorize(
+            Ticket ticket,
+            List<Category> categories,
+            List<CategorizationRule> rules,
+            List<UrgencyPolicy> policies,
+            List<CategorizationLog> logs) {
 
-        if (ticket.getDescription() != null &&
-                ticket.getDescription().toLowerCase().contains("login")) {
-            return "AUTH";
+        for (CategorizationRule rule : rules) {
+            if (ticket.getDescription().toLowerCase()
+                    .contains(rule.getKeyword().toLowerCase())) {
+
+                ticket.setAssignedCategory(rule.getCategory());
+                ticket.setUrgencyLevel(rule.getCategory().getDefaultUrgency());
+
+                CategorizationLog log = new CategorizationLog();
+                log.setTicket(ticket);
+                log.setAppliedRule(rule);
+                logs.add(log);
+                break;
+            }
         }
 
-        if (ticket.getDescription() != null &&
-                ticket.getDescription().toLowerCase().contains("payment")) {
-            return "BILLING";
+        for (UrgencyPolicy p : policies) {
+            if (ticket.getDescription().toLowerCase()
+                    .contains(p.getKeyword().toLowerCase())) {
+                ticket.setUrgencyLevel(p.getUrgencyOverride());
+            }
         }
 
-        return "GENERAL";
+        if (ticket.getUrgencyLevel() == null)
+            ticket.setUrgencyLevel("LOW");
     }
 }

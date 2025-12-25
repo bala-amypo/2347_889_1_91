@@ -1,9 +1,12 @@
 package com.example.demo.repository;
 
-import java.util.List;
-import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.demo.model.CategorizationLog;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CategorizationLogRepository extends JpaRepository<CategorizationLog, Long> {
-    List<CategorizationLog> findByTicket_Id(Long ticketId);
+import java.util.List;
+
+public interface CategorizationLogRepository
+        extends JpaRepository<CategorizationLog, Long> {
+
+    List<CategorizationLog> findByTicket_Id(Long id);
 }

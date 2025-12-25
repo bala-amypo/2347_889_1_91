@@ -1,34 +1,29 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.model.Category;
-import com.example.demo.repository.CategoryRepository;
-import com.example.demo.service.CategoryService;
-import org.springframework.stereotype.Service;
+import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.model.*;
+import com.example.demo.repository.*;
 
-import java.util.List;
+public class CategoryServiceImpl {
+    private final CategoryRepository repo;
+    public CategoryServiceImpl(CategoryRepository r) { repo = r; }
 
-@Service
-public class CategoryServiceImpl implements CategoryService {
+    public Category createCategory(Category c) { return repo.save(c); }
 
-    private final CategoryRepository categoryRepository;
-
-    public CategoryServiceImpl(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
-
-    @Override
-    public Category createCategory(Category category) {
-        return categoryRepository.save(category);
-    }
-
-    @Override
     public Category getCategory(Long id) {
-        return categoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Category not found"));
+        return repo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
     }
+}
 
-    @Override
-    public List<Category> getAllCategories() {
-        return categoryRepository.findAll();
+public class UrgencyPolicyServiceImpl {
+    private final UrgencyPolicyRepository repo;
+    public UrgencyPolicyServiceImpl(UrgencyPolicyRepository r) { repo = r; }
+
+    public UrgencyPolicy createPolicy(UrgencyPolicy p) { return repo.save(p); }
+
+    public UrgencyPolicy getPolicy(Long id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Policy not found"));
     }
 }
