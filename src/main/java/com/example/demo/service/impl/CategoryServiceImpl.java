@@ -12,8 +12,11 @@ public class CategoryServiceImpl {
     public CategoryServiceImpl(CategoryRepository repo) {
         this.repo = repo;
     }
-
-    public Category save(Category c) {
-        return repo.save(c);
+    public Category createCategory(Category category) {
+        return repo.save(category);
+    }
+    public Category getCategory(Long id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Category not found"));
     }
 }

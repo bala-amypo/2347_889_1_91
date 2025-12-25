@@ -15,12 +15,12 @@ public class CategoryController {
     }
 
     @PostMapping
-    public Category create(@RequestBody Category c) {
-        return service.createCategory(c);
+    public Category create(@RequestBody Category category) {
+        return service.createCategory(category); 
     }
 
     @GetMapping("/{id}")
     public Category get(@PathVariable Long id) {
-        return service.getCategory(id);
+        return service.getCategory(id); 
     }
 }
