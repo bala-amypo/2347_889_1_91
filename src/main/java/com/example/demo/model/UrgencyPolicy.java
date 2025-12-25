@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "urgency_policies")
 public class UrgencyPolicy {
 
     @Id
@@ -22,23 +21,12 @@ public class UrgencyPolicy {
 
     private LocalDateTime createdAt;
 
+    public UrgencyPolicy() {}
+
     @PrePersist
     public void prePersist() {
         createdAt = LocalDateTime.now();
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getPolicyName() { return policyName; }
-    public void setPolicyName(String policyName) { this.policyName = policyName; }
-
-    public String getKeyword() { return keyword; }
-    public void setKeyword(String keyword) { this.keyword = keyword; }
-
-    public String getUrgencyOverride() { return urgencyOverride; }
-    public void setUrgencyOverride(String urgencyOverride) { this.urgencyOverride = urgencyOverride; }
-
-    public Set<Category> getCategories() { return categories; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
+    // getters & setters
 }
