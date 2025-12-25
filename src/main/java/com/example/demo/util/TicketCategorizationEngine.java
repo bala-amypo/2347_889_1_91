@@ -2,7 +2,9 @@ package com.example.demo.util;
 
 import com.example.demo.model.*;
 import java.util.*;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TicketCategorizationEngine {
 
     public void categorize(
