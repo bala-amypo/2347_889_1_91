@@ -2,6 +2,8 @@ package com.example.demo.service.impl;
 
 import com.example.demo.model.CategorizationRule;
 import com.example.demo.repository.CategorizationRuleRepository;
+import com.example.demo.repository.CategoryRepository;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +21,6 @@ public class CategorizationRuleServiceImpl {
     }
 
     public List<CategorizationRule> getAll() {
-        return repo.findAll(); 
+        return ruleRepository.findAll();
     }
 }
