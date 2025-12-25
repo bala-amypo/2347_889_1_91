@@ -31,5 +31,50 @@ public class Category {
         createdAt = LocalDateTime.now();
     }
 
-    // getters & setters
+    // ===== GETTERS & SETTERS =====
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+    
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDefaultUrgency() {
+        return defaultUrgency;
+    }
+
+    public void setDefaultUrgency(String defaultUrgency) {
+        this.defaultUrgency = defaultUrgency;
+    }
+
+    public Set<UrgencyPolicy> getUrgencyPolicies() {
+        return urgencyPolicies;
+    }
+
+    public void setUrgencyPolicies(Set<UrgencyPolicy> urgencyPolicies) {
+        this.urgencyPolicies = urgencyPolicies;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    // Optional but SAFE
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 }
