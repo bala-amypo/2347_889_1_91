@@ -4,8 +4,8 @@ import com.example.demo.model.*;
 import com.example.demo.repository.*;
 import com.example.demo.service.CategorizationEngineService;
 import com.example.demo.util.TicketCategorizationEngine;
-
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -42,7 +42,7 @@ public class CategorizationEngineServiceImpl
 
         CategorizationLog log = engine.categorize(
                 ticket,
-                categoryRepository.findAll(),   // ✅ FIXED
+                categoryRepository.findAll(),
                 ruleRepository.findAll(),
                 urgencyPolicyRepository.findAll()
         );
@@ -52,7 +52,7 @@ public class CategorizationEngineServiceImpl
 
     @Override
     public List<CategorizationLog> getLogsForTicket(Long ticketId) {
-        return logRepository.findByTicket_Id(ticketId); // ✅ FIXED
+        return logRepository.findByTicket_Id(ticketId);
     }
 
     @Override

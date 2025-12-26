@@ -18,41 +18,18 @@ public class CategorizationLog {
     @ManyToOne
     private UrgencyPolicy urgencyPolicy;
 
-    public CategorizationLog() {
-    }
+    public CategorizationLog() {}
 
-    /* ---------- GETTERS ---------- */
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public Long getId() {
-        return id;
-    }
+    public Ticket getTicket() { return ticket; }
+    public void setTicket(Ticket ticket) { this.ticket = ticket; }
 
-    public Ticket getTicket() {
-        return ticket;
-    }
+    public Category getCategory() { return category; }
+    public void setCategory(Category category) { this.category = category; }
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public UrgencyPolicy getUrgencyPolicy() {
-        return urgencyPolicy;
-    }
-
-    /* ---------- SETTERS (REQUIRED BY TEST & ENGINE) ---------- */
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setTicket(Ticket ticket) {
-        this.ticket = ticket;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
+    public UrgencyPolicy getUrgencyPolicy() { return urgencyPolicy; }
     public void setUrgencyPolicy(UrgencyPolicy urgencyPolicy) {
         this.urgencyPolicy = urgencyPolicy;
     }

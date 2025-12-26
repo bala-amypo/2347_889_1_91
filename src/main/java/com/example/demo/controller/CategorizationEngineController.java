@@ -2,8 +2,8 @@ package com.example.demo.controller;
 
 import com.example.demo.model.CategorizationLog;
 import com.example.demo.service.CategorizationEngineService;
-
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -22,7 +22,7 @@ public class CategorizationEngineController {
     }
 
     @GetMapping("/ticket/{ticketId}")
-    public List<CategorizationLog> getLogs(@PathVariable Long ticketId) {
+    public List<CategorizationLog> logs(@PathVariable Long ticketId) {
         return service.getLogsForTicket(ticketId);
     }
 }
