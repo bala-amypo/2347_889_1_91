@@ -1,7 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Ticket;
-import com.example.demo.service.impl.TicketServiceImpl;
+import com.example.demo.service.TicketService;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,9 +11,9 @@ import java.util.List;
 @RequestMapping("/api/tickets")
 public class TicketController {
 
-    private final TicketServiceImpl service;
+    private final TicketService service;
 
-    public TicketController(TicketServiceImpl service) {
+    public TicketController(TicketService service) {   // ✅ interface
         this.service = service;
     }
 

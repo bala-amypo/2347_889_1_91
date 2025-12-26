@@ -1,7 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Category;
-import com.example.demo.service.impl.CategoryServiceImpl;
+import com.example.demo.service.CategoryService;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,9 +11,9 @@ import java.util.List;
 @RequestMapping("/api/categories")
 public class CategoryController {
 
-    private final CategoryServiceImpl service;
+    private final CategoryService service;
 
-    public CategoryController(CategoryServiceImpl service) {
+    public CategoryController(CategoryService service) {
         this.service = service;
     }
 
