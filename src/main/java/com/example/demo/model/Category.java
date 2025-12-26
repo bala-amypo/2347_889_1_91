@@ -10,28 +10,29 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // MUST match repository method findByCategoryName
     @Column(nullable = false, unique = true)
-    private String name;   // ✅ FIELD NAME IS "name"
+    private String categoryName;
 
     public Category() {}
 
-    public Category(String name) {
-        this.name = name;
+    public Category(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public Long getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getCategoryName() {
+        return categoryName;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 }
