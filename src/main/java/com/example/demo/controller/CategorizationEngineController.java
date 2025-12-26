@@ -2,27 +2,23 @@ package com.example.demo.controller;
 
 import com.example.demo.model.CategorizationLog;
 import com.example.demo.service.CategorizationEngineService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/categorization")
 public class CategorizationEngineController {
 
-    private final CategorizationEngineService service;
+    @Autowired
+    private CategorizationEngineService categorizationEngineService;
 
-    public CategorizationEngineController(CategorizationEngineService service) {
-        this.service = service;
-    }
+    // Endpoint to categorize a ticket
+    @PostMapping("/categorize")
+    public CategorizationLog categorizeTicket(
+            @RequestParam Long ticketId,
+            @RequestParam Long categoryId,
+            @RequestParam Long urgencyPolicyId) {
 
-    @PostMapping("/{ticketId}")
-    public CategorizationLog categorize(@PathVariable Long ticketId) {
-        return service.categorizeTicket(ticketId);
-    }
-
-    @GetMapping("/{ticketId}")
-    public List<CategorizationLog> logs(@PathVariable Long ticketId) {
-        return service.getLogsForTicket(ticketId);
+        return categorizationEngineService.categorizeTicket(ticketId, categoryId, urgencyPolicyId);
     }
 }
