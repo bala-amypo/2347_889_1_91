@@ -1,45 +1,31 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.model.*;
-import com.example.demo.repository.*;
+import com.example.demo.model.CategorizationLog;
+import com.example.demo.model.Category;
+import com.example.demo.model.Ticket;
+import com.example.demo.model.UrgencyPolicy;
+import com.example.demo.repository.CategorizationLogRepository;
 import com.example.demo.service.CategorizationEngineService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class CategorizationEngineServiceImpl implements CategorizationEngineService {
 
-    private final CategoryRepository categoryRepository;
-    private final UrgencyPolicyRepository urgencyPolicyRepository;
-    private final CategorizationLogRepository logRepository;
-
-    public CategorizationEngineServiceImpl(
-            CategoryRepository categoryRepository,
-            UrgencyPolicyRepository urgencyPolicyRepository,
-            CategorizationLogRepository logRepository) {
-        this.categoryRepository = categoryRepository;
-        this.urgencyPolicyRepository = urgencyPolicyRepository;
-        this.logRepository = logRepository;
-    }
+    @Autowired
+    private CategorizationLogRepository logRepository;
 
     @Override
-    public CategorizationLog categorizeTicket(Long ticketId) {
-        Category category = categoryRepository.findByCategoryName("General")
-                .orElseThrow();
-
-        UrgencyPolicy urgency = urgencyPolicyRepository
-                .findByKeywordContainingIgnoreCase("default")
-                .stream()
-                .findFirst()
-                .orElseThrow();
-
-        CategorizationLog log = new CategorizationLog(ticketId, category, urgency);
+    public CategorizationLog categorizeTicket(Ticket ticket, Category category, UrgencyPolicy urgencyPolicy) {
+        // Create log using no-arg constructor
+        CategorizationLog log = new CategorizationLog();
+        
+        // Set the fields
+        log.setTicket(ticket);
+        log.setCategory(category);
+        log.setUrgencyPolicy(urgencyPolicy);
+        
+        // Save log to database
         return logRepository.save(log);
-    }
-
-    @Override
-    public List<CategorizationLog> getLogsForTicket(Long ticketId) {
-        return logRepository.findByTicketId(ticketId);
     }
 }
