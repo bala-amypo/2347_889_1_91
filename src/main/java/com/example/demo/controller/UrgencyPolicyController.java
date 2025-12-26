@@ -1,16 +1,16 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.UrgencyPolicy;
-import com.example.demo.service.UrgencyPolicyService;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.*;
+
+import com.example.demo.model.UrgencyPolicy;
+import com.example.demo.service.UrgencyPolicyService;
+
 @RestController
-@RequestMapping("/api/policies")
-@Tag(name = "Policy")
+@RequestMapping("/urgency-policies")
 public class UrgencyPolicyController {
+
     private final UrgencyPolicyService policyService;
 
     public UrgencyPolicyController(UrgencyPolicyService policyService) {
@@ -18,17 +18,17 @@ public class UrgencyPolicyController {
     }
 
     @PostMapping
-    public ResponseEntity<UrgencyPolicy> createPolicy(@RequestBody UrgencyPolicy policy) {
-        return ResponseEntity.ok(policyService.createPolicy(policy));
+    public UrgencyPolicy createPolicy(@RequestBody UrgencyPolicy policy) {
+        return policyService.createPolicy(policy);
     }
 
     @GetMapping
-    public ResponseEntity<List<UrgencyPolicy>> getAllPolicies() {
-        return ResponseEntity.ok(policyService.getAllPolicies());
+    public List<UrgencyPolicy> getAllPolicies() {
+        return policyService.getAllPolicies();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UrgencyPolicy> getPolicy(@PathVariable Long id) {
-        return ResponseEntity.ok(policyService.getPolicy(id));
+    public UrgencyPolicy getPolicyById(@PathVariable Long id) {
+        return policyService.getPolicy(id);
     }
 }
