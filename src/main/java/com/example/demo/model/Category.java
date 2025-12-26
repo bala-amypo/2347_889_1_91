@@ -10,7 +10,6 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // MUST match repository method findByCategoryName
     @Column(nullable = false, unique = true)
     private String categoryName;
 

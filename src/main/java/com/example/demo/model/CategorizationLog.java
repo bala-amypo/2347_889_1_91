@@ -11,7 +11,8 @@ public class CategorizationLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long ticketId;
+    @ManyToOne
+    private Ticket ticket;
 
     @ManyToOne
     private Category category;
@@ -19,23 +20,19 @@ public class CategorizationLog {
     @ManyToOne
     private UrgencyPolicy urgencyPolicy;
 
-    private LocalDateTime categorizedAt;
+    private LocalDateTime createdAt;
 
-    public CategorizationLog() {}
-
-    public CategorizationLog(Long ticketId, Category category, UrgencyPolicy urgencyPolicy) {
-        this.ticketId = ticketId;
-        this.category = category;
-        this.urgencyPolicy = urgencyPolicy;
-        this.categorizedAt = LocalDateTime.now();
+    public CategorizationLog() {
+        this.createdAt = LocalDateTime.now();
     }
 
+    // ---------- GETTERS ----------
     public Long getId() {
         return id;
     }
 
-    public Long getTicketId() {
-        return ticketId;
+    public Ticket getTicket() {
+        return ticket;
     }
 
     public Category getCategory() {
@@ -46,16 +43,17 @@ public class CategorizationLog {
         return urgencyPolicy;
     }
 
-    public LocalDateTime getCategorizedAt() {
-        return categorizedAt;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
+    // ---------- SETTERS (THE FIX) ----------
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setTicketId(Long ticketId) {
-        this.ticketId = ticketId;
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
     }
 
     public void setCategory(Category category) {
@@ -66,7 +64,7 @@ public class CategorizationLog {
         this.urgencyPolicy = urgencyPolicy;
     }
 
-    public void setCategorizedAt(LocalDateTime categorizedAt) {
-        this.categorizedAt = categorizedAt;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

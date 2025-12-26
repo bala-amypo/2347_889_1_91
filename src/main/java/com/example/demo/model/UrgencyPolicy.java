@@ -10,18 +10,17 @@ public class UrgencyPolicy {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // MUST match repository method findByKeywordContainingIgnoreCase
     @Column(nullable = false)
     private String keyword;
 
     @Column(nullable = false)
-    private String urgencyLevel;
+    private int priority;
 
     public UrgencyPolicy() {}
 
-    public UrgencyPolicy(String keyword, String urgencyLevel) {
+    public UrgencyPolicy(String keyword, int priority) {
         this.keyword = keyword;
-        this.urgencyLevel = urgencyLevel;
+        this.priority = priority;
     }
 
     public Long getId() {
@@ -32,8 +31,8 @@ public class UrgencyPolicy {
         return keyword;
     }
 
-    public String getUrgencyLevel() {
-        return urgencyLevel;
+    public int getPriority() {
+        return priority;
     }
 
     public void setId(Long id) {
@@ -44,7 +43,7 @@ public class UrgencyPolicy {
         this.keyword = keyword;
     }
 
-    public void setUrgencyLevel(String urgencyLevel) {
-        this.urgencyLevel = urgencyLevel;
+    public void setPriority(int priority) {
+        this.priority = priority;
     }
 }
