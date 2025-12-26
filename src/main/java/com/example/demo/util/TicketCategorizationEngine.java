@@ -1,9 +1,9 @@
 package com.example.demo.util;
 
+import java.util.List;
+
 import com.example.demo.model.*;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class TicketCategorizationEngine {
@@ -13,38 +13,43 @@ public class TicketCategorizationEngine {
             List<Category> categories,
             List<CategorizationRule> rules,
             List<UrgencyPolicy> policies,
-            List<CategorizationLog> logs
-    ) {
+            List<CategorizationLog> logs) {
 
-        // Defensive checks
-        if (ticket == null || ticket.getDescription() == null) {
-            return;
-        }
+        boolean categorized = false;
 
-        /*
-         * IMPORTANT:
-         * Your model classes do NOT expose setters like:
-         * - ticket.setCategory(...)
-         * - log.setCategory(...)
-         * - log.setRule(...)
-         * - policy.getUrgency()
-         *
-         * So we DO NOT call them.
-         *
-         * This engine only evaluates rules safely
-         * without touching non-existing methods.
-         */
-
+        
         for (CategorizationRule rule : rules) {
-            if (ticket.getDescription()
-                    .toLowerCase()
-                    .contains(rule.getKeyword().toLowerCase())) {
+            if (ticket.getDescription() != null &&
+                ticket.getDescription().toLowerCase()
+                      .contains(rule.getKeyword().toLowerCase())) {
 
-                // Log object creation only (no setters assumed)
+                ticket.setAssignedCategory(rule.getCategory());
+                ticket.setUrgencyLevel(rule.getCategory().getDefaultUrgency());
+                categorized = true;
+
                 CategorizationLog log = new CategorizationLog();
+                log.setTicket(ticket);
+                log.setAppliedRule(rule);
                 logs.add(log);
                 break;
             }
+        }
+
+        
+        for (UrgencyPolicy policy : policies) {
+            if (ticket.getDescription() != null &&
+                ticket.getDescription().toLowerCase()
+                      .contains(policy.getKeyword().toLowerCase())) {
+
+                ticket.setUrgencyLevel(policy.getUrgencyOverride());
+                categorized = true;
+                break;
+            }
+        }
+
+        
+        if (!categorized) {
+            ticket.setUrgencyLevel("LOW");
         }
     }
 }
