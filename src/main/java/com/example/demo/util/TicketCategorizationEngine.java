@@ -8,7 +8,7 @@ import java.util.List;
 @Component
 public class TicketCategorizationEngine {
 
-    // ❗❗ THIS IS THE ONLY categorize METHOD
+    // ✅ MATCHES YOUR SERVICE CALL EXACTLY
     public void categorize(
             Ticket ticket,
             List<Category> categories,
@@ -21,10 +21,9 @@ public class TicketCategorizationEngine {
             return;
         }
 
-        // Apply categorization rules
+        // Category assignment
         for (CategorizationRule rule : rules) {
-            if (ticket.getDescription()
-                    .toLowerCase()
+            if (ticket.getDescription().toLowerCase()
                     .contains(rule.getKeyword().toLowerCase())) {
 
                 ticket.setCategory(rule.getCategory());
@@ -39,10 +38,9 @@ public class TicketCategorizationEngine {
             }
         }
 
-        // Apply urgency policies
+        // Urgency assignment
         for (UrgencyPolicy policy : policies) {
-            if (ticket.getDescription()
-                    .toLowerCase()
+            if (ticket.getDescription().toLowerCase()
                     .contains(policy.getKeyword().toLowerCase())) {
 
                 ticket.setUrgency(policy.getUrgency());
