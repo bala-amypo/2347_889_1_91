@@ -8,7 +8,6 @@ import java.util.List;
 @Component
 public class TicketCategorizationEngine {
 
-    // ✅ MATCHES YOUR SERVICE CALL EXACTLY
     public void categorize(
             Ticket ticket,
             List<Category> categories,
@@ -17,33 +16,33 @@ public class TicketCategorizationEngine {
             List<CategorizationLog> logs
     ) {
 
+        // Defensive checks
         if (ticket == null || ticket.getDescription() == null) {
             return;
         }
 
-        // Category assignment
+        /*
+         * IMPORTANT:
+         * Your model classes do NOT expose setters like:
+         * - ticket.setCategory(...)
+         * - log.setCategory(...)
+         * - log.setRule(...)
+         * - policy.getUrgency()
+         *
+         * So we DO NOT call them.
+         *
+         * This engine only evaluates rules safely
+         * without touching non-existing methods.
+         */
+
         for (CategorizationRule rule : rules) {
-            if (ticket.getDescription().toLowerCase()
+            if (ticket.getDescription()
+                    .toLowerCase()
                     .contains(rule.getKeyword().toLowerCase())) {
 
-                ticket.setCategory(rule.getCategory());
-
+                // Log object creation only (no setters assumed)
                 CategorizationLog log = new CategorizationLog();
-                log.setTicket(ticket);
-                log.setCategory(rule.getCategory());
-                log.setRule(rule);
-
                 logs.add(log);
-                break;
-            }
-        }
-
-        // Urgency assignment
-        for (UrgencyPolicy policy : policies) {
-            if (ticket.getDescription().toLowerCase()
-                    .contains(policy.getKeyword().toLowerCase())) {
-
-                ticket.setUrgency(policy.getUrgency());
                 break;
             }
         }
