@@ -3,6 +3,7 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "categorization_logs")
 public class CategorizationLog {
 
     @Id
@@ -10,18 +11,21 @@ public class CategorizationLog {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "category_id")
     private Category category;
 
     @ManyToOne
+    @JoinColumn(name = "urgency_policy_id")
     private UrgencyPolicy urgencyPolicy;
 
     @ManyToOne
-    private Ticket ticket;  // Add this field
+    @JoinColumn(name = "ticket_id")
+    private Ticket ticket;
 
     // No-arg constructor (required by JPA)
     public CategorizationLog() {}
 
-    // Constructor with fields (optional)
+    // All-args constructor
     public CategorizationLog(Long id, Category category, UrgencyPolicy urgencyPolicy, Ticket ticket) {
         this.id = id;
         this.category = category;
@@ -29,16 +33,36 @@ public class CategorizationLog {
         this.ticket = ticket;
     }
 
-    // Getters and setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
 
-    public Category getCategory() { return category; }
-    public void setCategory(Category category) { this.category = category; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public UrgencyPolicy getUrgencyPolicy() { return urgencyPolicy; }
-    public void setUrgencyPolicy(UrgencyPolicy urgencyPolicy) { this.urgencyPolicy = urgencyPolicy; }
+    public Category getCategory() {
+        return category;
+    }
 
-    public Ticket getTicket() { return ticket; }
-    public void setTicket(Ticket ticket) { this.ticket = ticket; }
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public UrgencyPolicy getUrgencyPolicy() {
+        return urgencyPolicy;
+    }
+
+    public void setUrgencyPolicy(UrgencyPolicy urgencyPolicy) {
+        this.urgencyPolicy = urgencyPolicy;
+    }
+
+    public Ticket getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
+    }
 }
