@@ -2,46 +2,33 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.AuthRequest;
 import com.example.demo.dto.AuthResponse;
-import com.example.demo.security.JwtUtil;
-
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.demo.model.User;
+import com.example.demo.service.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
+@Tag(name = "Auth")
 public class AuthController {
+    private final UserService userService;
 
-    private final AuthenticationManager authManager;
-    private final JwtUtil jwtUtil;
+    public AuthController(UserService userService) {
+        this.userService = userService;
+    }
 
-    public AuthController(AuthenticationManager authManager, JwtUtil jwtUtil) {
-        this.authManager = authManager;
-        this.jwtUtil = jwtUtil;
+    @PostMapping("/register")
+    public ResponseEntity<AuthResponse> register(@RequestBody User user) {
+        User savedUser = userService.register(user);
+        AuthResponse response = new AuthResponse("mock-token", savedUser.getId(), savedUser.getEmail(), savedUser.getRole());
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/login")
-    public AuthResponse login(@RequestBody AuthRequest request) {
-
-        Authentication auth = authManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
-
-        String token = jwtUtil.generateToken(request.getEmail());
-
-        // For tests — dummy values or values from authenticated user
-        long userId = 1L;
-        String email = request.getEmail();
-        String role = "USER";
-
-        return new AuthResponse(token, userId, email, role);
+    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
+        User user = userService.findByEmail(request.getEmail());
+        AuthResponse response = new AuthResponse("mock-token", user.getId(), user.getEmail(), user.getRole());
+        return ResponseEntity.ok(response);
     }
 }
