@@ -1,10 +1,8 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "categorization_logs")
 public class CategorizationLog {
 
     @Id
@@ -12,59 +10,35 @@ public class CategorizationLog {
     private Long id;
 
     @ManyToOne
-    private Ticket ticket;
-
-    @ManyToOne
     private Category category;
 
     @ManyToOne
     private UrgencyPolicy urgencyPolicy;
 
-    private LocalDateTime createdAt;
+    @ManyToOne
+    private Ticket ticket;  // Add this field
 
-    public CategorizationLog() {
-        this.createdAt = LocalDateTime.now();
-    }
+    // No-arg constructor (required by JPA)
+    public CategorizationLog() {}
 
-    // ---------- GETTERS ----------
-    public Long getId() {
-        return id;
-    }
-
-    public Ticket getTicket() {
-        return ticket;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public UrgencyPolicy getUrgencyPolicy() {
-        return urgencyPolicy;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    // ---------- SETTERS (THE FIX) ----------
-    public void setId(Long id) {
+    // Constructor with fields (optional)
+    public CategorizationLog(Long id, Category category, UrgencyPolicy urgencyPolicy, Ticket ticket) {
         this.id = id;
-    }
-
-    public void setTicket(Ticket ticket) {
+        this.category = category;
+        this.urgencyPolicy = urgencyPolicy;
         this.ticket = ticket;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
-    }
+    // Getters and setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setUrgencyPolicy(UrgencyPolicy urgencyPolicy) {
-        this.urgencyPolicy = urgencyPolicy;
-    }
+    public Category getCategory() { return category; }
+    public void setCategory(Category category) { this.category = category; }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
+    public UrgencyPolicy getUrgencyPolicy() { return urgencyPolicy; }
+    public void setUrgencyPolicy(UrgencyPolicy urgencyPolicy) { this.urgencyPolicy = urgencyPolicy; }
+
+    public Ticket getTicket() { return ticket; }
+    public void setTicket(Ticket ticket) { this.ticket = ticket; }
 }
