@@ -1,35 +1,27 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 public class CategorizationLog {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
     private Ticket ticket;
 
     @ManyToOne
-    private CategorizationRule appliedRule;
+    private Category category;
 
-    private String matchedKeyword;
-    private String assignedCategory;
-    private String assignedUrgency;
+    @ManyToOne
+    private UrgencyPolicy urgencyPolicy;
 
-    private LocalDateTime loggedAt;
-
-    public CategorizationLog() {}
-
-    @PrePersist
-    public void prePersist() {
-        loggedAt = LocalDateTime.now();
+    public CategorizationLog() {
     }
 
-    // ===== GETTERS & SETTERS =====
+    /* ---------- GETTERS ---------- */
 
     public Long getId() {
         return id;
@@ -39,48 +31,29 @@ public class CategorizationLog {
         return ticket;
     }
 
+    public Category getCategory() {
+        return category;
+    }
+
+    public UrgencyPolicy getUrgencyPolicy() {
+        return urgencyPolicy;
+    }
+
+    /* ---------- SETTERS (REQUIRED BY TEST & ENGINE) ---------- */
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public void setTicket(Ticket ticket) {
         this.ticket = ticket;
     }
 
-    public CategorizationRule getAppliedRule() {
-        return appliedRule;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
-    public void setAppliedRule(CategorizationRule appliedRule) {
-        this.appliedRule = appliedRule;
-    }
-
-    public String getMatchedKeyword() {
-        return matchedKeyword;
-    }
-
-    public void setMatchedKeyword(String matchedKeyword) {
-        this.matchedKeyword = matchedKeyword;
-    }
-
-    public String getAssignedCategory() {
-        return assignedCategory;
-    }
-
-    public void setAssignedCategory(String assignedCategory) {
-        this.assignedCategory = assignedCategory;
-    }
-
-    public String getAssignedUrgency() {
-        return assignedUrgency;
-    }
-
-    public void setAssignedUrgency(String assignedUrgency) {
-        this.assignedUrgency = assignedUrgency;
-    }
-
-    public LocalDateTime getLoggedAt() {
-        return loggedAt;
-    }
-
-    // Optional but SAFE
-    public void setLoggedAt(LocalDateTime loggedAt) {
-        this.loggedAt = loggedAt;
+    public void setUrgencyPolicy(UrgencyPolicy urgencyPolicy) {
+        this.urgencyPolicy = urgencyPolicy;
     }
 }
