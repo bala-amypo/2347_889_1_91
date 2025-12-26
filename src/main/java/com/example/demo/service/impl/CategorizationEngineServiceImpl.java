@@ -1,75 +1,31 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.model.*;
 import com.example.demo.repository.*;
 import com.example.demo.service.CategorizationEngineService;
 import com.example.demo.util.TicketCategorizationEngine;
-
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
-@Service   
+@Service
 public class CategorizationEngineServiceImpl
         implements CategorizationEngineService {
 
     private final TicketRepository ticketRepository;
     private final CategorizationRuleRepository ruleRepository;
-    private final UrgencyPolicyRepository policyRepository;
+    private final UrgencyPolicyRepository urgencyPolicyRepository;
     private final CategorizationLogRepository logRepository;
-
-    private final TicketCategorizationEngine engine =
-            new TicketCategorizationEngine();
+    private final TicketCategorizationEngine engine;
 
     public CategorizationEngineServiceImpl(
             TicketRepository ticketRepository,
             CategorizationRuleRepository ruleRepository,
-            UrgencyPolicyRepository policyRepository,
-            CategorizationLogRepository logRepository) {
-
+            UrgencyPolicyRepository urgencyPolicyRepository,
+            CategorizationLogRepository logRepository,
+            TicketCategorizationEngine engine
+    ) {
         this.ticketRepository = ticketRepository;
         this.ruleRepository = ruleRepository;
-        this.policyRepository = policyRepository;
+        this.urgencyPolicyRepository = urgencyPolicyRepository;
         this.logRepository = logRepository;
-    }
-
-    @Override
-    public Ticket categorizeTicket(Long ticketId) {
-
-        Ticket ticket = ticketRepository.findById(ticketId)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Ticket not found"));
-
-        List<CategorizationRule> rules = ruleRepository.findAll();
-        List<UrgencyPolicy> policies = policyRepository.findAll();
-
-        TicketCategorizationEngine.CategorizationResult result =
-                engine.categorize(ticket, rules, policies);
-
-        ticket.setUrgencyLevel(result.getUrgency());
-        ticketRepository.save(ticket);
-
-        CategorizationLog log = new CategorizationLog();
-        log.setTicket(ticket);
-        log.setAppliedRule(result.getRule());
-        log.setAssignedCategory(result.getCategory());
-        log.setAssignedUrgency(result.getUrgency());
-
-        logRepository.save(log);
-
-        return ticket;
-    }
-
-    @Override
-    public List<CategorizationLog> getLogsForTicket(Long ticketId) {
-        return logRepository.findByTicket_Id(ticketId);
-    }
-
-    @Override
-    public CategorizationLog getLog(Long id) {
-        return logRepository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Log not found"));
+        this.engine = engine;
     }
 }
