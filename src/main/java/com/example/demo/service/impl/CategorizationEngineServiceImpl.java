@@ -79,4 +79,5 @@ public class CategorizationEngineServiceImpl implements CategorizationEngineServ
     public List<CategorizationLog> getLogsForTicket(Long ticketId) {
         return logRepository.findByTicket_Id(ticketId);
     }
+
 }
