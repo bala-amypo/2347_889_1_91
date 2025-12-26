@@ -9,5 +9,5 @@ import com.example.demo.model.CategorizationLog;
 public interface CategorizationLogRepository
         extends JpaRepository<CategorizationLog, Long> {
 
-        List<CategorizationLog> findByTicket_Id(Long ticketId);
+    List<CategorizationLog> findByTicket_Id(Long ticketId);
 }
