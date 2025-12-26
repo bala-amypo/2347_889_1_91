@@ -30,7 +30,6 @@ public class CategorizationEngineServiceImpl implements CategorizationEngineServ
         return logRepository.save(log);
     }
 
-    // Implement the missing method from the interface
     @Override
     public List<CategorizationLog> getLogsForTicket(Long ticketId) {
         // Fetch ticket first (optional, depending on your repository)
