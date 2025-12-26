@@ -1,7 +1,6 @@
 package com.example.demo.util;
 
 import com.example.demo.model.*;
-
 import org.springframework.stereotype.Component;
 import java.util.List;
 
@@ -12,8 +11,8 @@ public class TicketCategorizationEngine {
             Ticket ticket,
             List<Category> categories,
             List<CategorizationRule> rules,
-            List<UrgencyPolicy> urgencyPolicies
-    ) {
+            List<UrgencyPolicy> urgencyPolicies) {
+
         CategorizationLog log = new CategorizationLog();
         log.setTicket(ticket);
         log.setCategory(categories.get(0));
