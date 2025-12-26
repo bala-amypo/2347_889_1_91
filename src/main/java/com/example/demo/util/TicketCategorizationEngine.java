@@ -1,23 +1,53 @@
-package com.example.demo.util;
+// package com.example.demo.util;
 
-import org.springframework.stereotype.Component;
+// import com.example.demo.model.*;
+// import org.springframework.stereotype.Component;
 
-@Component
-public class TicketCategorizationEngine {
+// import java.util.List;
 
-    public String categorize(String description) {
-        if (description == null || description.isEmpty()) {
-            return "UNCATEGORIZED";
-        }
+// @Component
+// public class TicketCategorizationEngine{
 
-        if (description.toLowerCase().contains("network")) {
-            return "NETWORK";
-        } else if (description.toLowerCase().contains("hardware")) {
-            return "HARDWARE";
-        } else if (description.toLowerCase().contains("software")) {
-            return "SOFTWARE";
-        }
+//     // ❗❗ THIS IS THE ONLY categorize METHOD
+//     public void categorize(
+//             Ticket ticket,
+//             List<Category> categories,
+//             List<CategorizationRule> rules,
+//             List<UrgencyPolicy> policies,
+//             List<CategorizationLog> logs
+//     ) {
 
-        return "GENERAL";
-    }
-}
+//         if (ticket == null || ticket.getDescription() == null) {
+//             return;
+//         }
+
+//         // Apply categorization rules
+//         for (CategorizationRule rule : rules) {
+//             if (ticket.getDescription()
+//                     .toLowerCase()
+//                     .contains(rule.getKeyword().toLowerCase())) {
+
+//                 ticket.setCategory(rule.getCategory());
+
+//                 CategorizationLog log = new CategorizationLog();
+//                 log.setTicket(ticket);
+//                 log.setCategory(rule.getCategory());
+//                 log.setRule(rule);
+
+//                 logs.add(log);
+//                 break;
+//             }
+//         }
+
+//         // Apply urgency policies
+//         for (UrgencyPolicy policy : policies) {
+//             if (ticket.getDescription()
+//                     .toLowerCase()
+//                     .contains(policy.getKeyword().toLowerCase())) {
+
+//                 ticket.setUrgency(policy.getUrgency());
+//                 break;
+//             }
+//         }
+//     }
+// }
