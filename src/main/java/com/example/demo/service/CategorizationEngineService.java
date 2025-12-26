@@ -8,6 +8,4 @@ public interface CategorizationEngineService {
     CategorizationLog categorizeTicket(Long ticketId);
 
     List<CategorizationLog> getLogsForTicket(Long ticketId);
-
-    CategorizationLog getLog(Long logId);
 }
