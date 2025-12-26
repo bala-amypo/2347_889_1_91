@@ -1,6 +1,6 @@
 // package com.example.demo.model;
 
-// public enum MatchType {
+// public enum MatchType{
 //     EXACT,
 //     CONTAINS,
 //     REGEX
