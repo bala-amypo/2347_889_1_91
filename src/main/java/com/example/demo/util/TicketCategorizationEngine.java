@@ -1,18 +1,23 @@
-// package com.example.demo.util;
+package com.example.demo.util;
 
-// import com.example.demo.model.*;
+import org.springframework.stereotype.Component;
 
-// public class TicketCategorizationEngine{
+@Component
+public class TicketCategorizationEngine {
 
-//     public static CategorizationLog categorize(
-//             Ticket ticket,
-//             Category category,
-//             UrgencyPolicy urgencyPolicy
-//     ) {
-//         CategorizationLog log = new CategorizationLog();
-//         log.setTicket(ticket);
-//         log.setCategory(category);
-//         log.setUrgencyPolicy(urgencyPolicy);
-//         return log;
-//     }
-// }
+    public String categorize(String description) {
+        if (description == null || description.isEmpty()) {
+            return "UNCATEGORIZED";
+        }
+
+        if (description.toLowerCase().contains("network")) {
+            return "NETWORK";
+        } else if (description.toLowerCase().contains("hardware")) {
+            return "HARDWARE";
+        } else if (description.toLowerCase().contains("software")) {
+            return "SOFTWARE";
+        }
+
+        return "GENERAL";
+    }
+}
