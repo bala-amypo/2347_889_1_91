@@ -6,9 +6,13 @@ import com.example.demo.repository.*;
 import com.example.demo.service.CategorizationEngineService;
 import com.example.demo.util.TicketCategorizationEngine;
 
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
-public class CategorizationEngineServiceImpl implements CategorizationEngineService {
+@Service   
+public class CategorizationEngineServiceImpl
+        implements CategorizationEngineService {
 
     private final TicketRepository ticketRepository;
     private final CategorizationRuleRepository ruleRepository;
