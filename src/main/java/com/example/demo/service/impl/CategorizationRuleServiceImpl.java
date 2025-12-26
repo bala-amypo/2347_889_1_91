@@ -7,21 +7,28 @@ import com.example.demo.repository.CategoryRepository;
 import com.example.demo.repository.CategorizationRuleRepository;
 import com.example.demo.service.CategorizationRuleService;
 
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
-public class CategorizationRuleServiceImpl implements CategorizationRuleService {
+@Service   // ⭐ THIS WAS MISSING
+public class CategorizationRuleServiceImpl
+        implements CategorizationRuleService {
 
     private final CategorizationRuleRepository ruleRepository;
     private final CategoryRepository categoryRepository;
 
-    public CategorizationRuleServiceImpl(CategorizationRuleRepository ruleRepository,
-                                         CategoryRepository categoryRepository) {
+    public CategorizationRuleServiceImpl(
+            CategorizationRuleRepository ruleRepository,
+            CategoryRepository categoryRepository) {
+
         this.ruleRepository = ruleRepository;
         this.categoryRepository = categoryRepository;
     }
 
     @Override
     public CategorizationRule createRule(Long categoryId, CategorizationRule rule) {
+
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Category not found"));
@@ -39,13 +46,14 @@ public class CategorizationRuleServiceImpl implements CategorizationRuleService 
 
     @Override
     public List<CategorizationRule> getRulesByCategory(Long categoryId) {
+
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Category not found"));
 
-        return category.getUrgencyPolicies()
+        return ruleRepository.findAll()
                 .stream()
-                .flatMap(p -> ruleRepository.findByKeywordContainingIgnoreCase(p.getKeyword()).stream())
+                .filter(r -> r.getCategory().getId().equals(category.getId()))
                 .toList();
     }
 }
