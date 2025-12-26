@@ -1,35 +1,35 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Ticket;
-import com.example.demo.model.CategorizationLog;
-import com.example.demo.service.CategorizationEngineService;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.*;
+
+import com.example.demo.model.CategorizationLog;
+import com.example.demo.model.Ticket;
+import com.example.demo.service.CategorizationEngineService;
+
 @RestController
-@RequestMapping("/api/categorize")
-@Tag(name = "Engine")
+@RequestMapping("/engine")
 public class CategorizationEngineController {
+
     private final CategorizationEngineService engineService;
 
     public CategorizationEngineController(CategorizationEngineService engineService) {
         this.engineService = engineService;
     }
 
-    @PostMapping("/run/{ticketId}")
-    public ResponseEntity<Ticket> categorizeTicket(@PathVariable Long ticketId) {
-        return ResponseEntity.ok(engineService.categorizeTicket(ticketId));
+    @PostMapping("/categorize/{ticketId}")
+    public Ticket categorizeTicket(@PathVariable Long ticketId) {
+        return engineService.categorizeTicket(ticketId);
     }
 
-    @GetMapping("/logs/{ticketId}")
-    public ResponseEntity<List<CategorizationLog>> getLogsForTicket(@PathVariable Long ticketId) {
-        return ResponseEntity.ok(engineService.getLogsForTicket(ticketId));
+    @GetMapping("/logs")
+    public List<CategorizationLog> getAllLogs() {
+        return engineService.getAllLogs();
     }
 
-    @GetMapping("/log/{id}")
-    public ResponseEntity<CategorizationLog> getLog(@PathVariable Long id) {
-        return ResponseEntity.ok(engineService.getLog(id));
+    @GetMapping("/logs/{id}")
+    public CategorizationLog getLogById(@PathVariable Long id) {
+        return engineService.getLog(id);
     }
 }

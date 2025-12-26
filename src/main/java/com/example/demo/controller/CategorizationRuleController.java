@@ -1,34 +1,34 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.CategorizationRule;
-import com.example.demo.service.CategorizationRuleService;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.*;
+
+import com.example.demo.model.CategorizationRule;
+import com.example.demo.service.CategorizationRuleService;
+
 @RestController
-@RequestMapping("/api/rules")
-@Tag(name = "Rule")
+@RequestMapping("/rules")
 public class CategorizationRuleController {
+
     private final CategorizationRuleService ruleService;
 
     public CategorizationRuleController(CategorizationRuleService ruleService) {
         this.ruleService = ruleService;
     }
 
-    @PostMapping("/{categoryId}")
-    public ResponseEntity<CategorizationRule> createRule(@PathVariable Long categoryId, @RequestBody CategorizationRule rule) {
-        return ResponseEntity.ok(ruleService.createRule(categoryId, rule));
+    @PostMapping
+    public CategorizationRule createRule(@RequestBody CategorizationRule rule) {
+        return ruleService.createRule(rule);
     }
 
-    @GetMapping("/category/{categoryId}")
-    public ResponseEntity<List<CategorizationRule>> getRulesByCategory(@PathVariable Long categoryId) {
-        return ResponseEntity.ok(ruleService.getRulesByCategory(categoryId));
+    @GetMapping
+    public List<CategorizationRule> getAllRules() {
+        return ruleService.getAllRules();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CategorizationRule> getRule(@PathVariable Long id) {
-        return ResponseEntity.ok(ruleService.getRule(id));
+    public CategorizationRule getRuleById(@PathVariable Long id) {
+        return ruleService.getRule(id);
     }
 }
