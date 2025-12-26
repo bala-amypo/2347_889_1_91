@@ -13,6 +13,7 @@ public class CategorizationEngineServiceImpl
         implements CategorizationEngineService {
 
     private final TicketRepository ticketRepository;
+    private final CategoryRepository categoryRepository;
     private final CategorizationRuleRepository ruleRepository;
     private final UrgencyPolicyRepository urgencyPolicyRepository;
     private final CategorizationLogRepository logRepository;
@@ -20,12 +21,14 @@ public class CategorizationEngineServiceImpl
 
     public CategorizationEngineServiceImpl(
             TicketRepository ticketRepository,
+            CategoryRepository categoryRepository,
             CategorizationRuleRepository ruleRepository,
             UrgencyPolicyRepository urgencyPolicyRepository,
             CategorizationLogRepository logRepository,
             TicketCategorizationEngine engine) {
 
         this.ticketRepository = ticketRepository;
+        this.categoryRepository = categoryRepository;
         this.ruleRepository = ruleRepository;
         this.urgencyPolicyRepository = urgencyPolicyRepository;
         this.logRepository = logRepository;
@@ -34,11 +37,12 @@ public class CategorizationEngineServiceImpl
 
     @Override
     public CategorizationLog categorizeTicket(Long ticketId) {
+
         Ticket ticket = ticketRepository.findById(ticketId).orElseThrow();
 
         CategorizationLog log = engine.categorize(
                 ticket,
-                ruleRepository.findAllCategories(),
+                categoryRepository.findAll(),   // ✅ FIXED
                 ruleRepository.findAll(),
                 urgencyPolicyRepository.findAll()
         );
@@ -48,7 +52,7 @@ public class CategorizationEngineServiceImpl
 
     @Override
     public List<CategorizationLog> getLogsForTicket(Long ticketId) {
-        return logRepository.findByTicketId(ticketId);
+        return logRepository.findByTicket_Id(ticketId); // ✅ FIXED
     }
 
     @Override
