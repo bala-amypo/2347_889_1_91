@@ -27,7 +27,6 @@ public class CategorizationLog {
         this.createdAt = LocalDateTime.now();
     }
 
-    // getters and setters
     public Long getId() {
         return id;
     }

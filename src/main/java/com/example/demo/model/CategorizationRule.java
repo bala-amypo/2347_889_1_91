@@ -33,7 +33,6 @@ public class CategorizationRule {
         }
     }
 
-    // getters and setters
     public Long getId() {
         return id;
     }
